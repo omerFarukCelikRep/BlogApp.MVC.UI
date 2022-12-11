@@ -8,4 +8,5 @@ public interface ITopicService
 {
     Task<IDataResult<List<TopicListVM>>?> GetAll();
     Task<IResult> AddAsync(TopicAddVM topicAddVM);
+    Task<IDataResult<TopicUpdateVM>?> GetById(Guid id);
 }

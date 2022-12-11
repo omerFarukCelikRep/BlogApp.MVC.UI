@@ -4,7 +4,6 @@
 {
         <article class="post-blog-list">
             <div class="blog-list-box">
-
                 <!--Post Image-->
                 <div class="blog-list-img">
                     <a href="#">
@@ -14,7 +13,6 @@
                         </figure>
                     </a>
                 </div>
-
                 <!--Post Entry-->
                 <div class="post-entry">
                     <div class="blog-list-details">
@@ -23,6 +21,23 @@
                             <p>Description</p>
                         </div>
                     </div>
+                <div class="blog-list-share share-tooltip-animate">
+                    <i class="fa-solid fa-ellipsis-vertical" data-bs-toggle="tooltip" data-bs-title="Options"></i>
+                </div>
+                <div class="share-tooltip" style="display: none; margin-top: 0px;">
+                    <ul>
+                        <li>
+                            <a asp-controller="Topic" asp-action="Update" asp-route-id="@topic.Id" data-bs-toggle="tooltip" data-bs-title="Update">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Topic" asp-action="Delete" asp-route-id="@topic.Id" data-bs-toggle="tooltip" data-bs-title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 </div>
             </div>
         </article>

@@ -31,9 +31,14 @@ public class TopicService : ITopicService
         var response = await responseMessage.Content.ReadFromJsonAsync<DataResult<TopicAddVM>>();
         if (!responseMessage.IsSuccessStatusCode)
         {
-            return new ErrorResult($"{responseMessage.ReasonPhrase} - {response!.Message}");
+            return new ErrorResult($"{response!.Message}");
         }
 
         return new SuccessResult();
+    }
+
+    public async Task<IDataResult<TopicUpdateVM>?> GetById(Guid id)
+    {
+        return await _httpClient.GetFromJsonAsync<DataResult<TopicUpdateVM>>("/api/v1/Topics/" + id);
     }
 }

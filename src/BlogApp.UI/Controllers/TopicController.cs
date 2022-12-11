@@ -44,4 +44,16 @@ public class TopicController : BaseController
 
         return RedirectToAction(nameof(Index));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Update(Guid id)
+    {
+        var result = await _topicService.GetById(id);
+        if (result is null || !result.IsSuccess)
+        {
+            return NotFound();
+        }
+
+        return View(result.Data);
+    }
 }

@@ -74,4 +74,21 @@ public class TopicController : BaseController
 
         return RedirectToAction(nameof(Index));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        if (id == Guid.Empty)
+        {
+            return NotFound();
+        }
+
+        var result = await _topicService.DeleteAsync(id);
+        if (result is null || !result.IsSuccess)
+        {
+            //TODO: Result Message
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
 }

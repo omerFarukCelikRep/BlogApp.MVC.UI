@@ -15,7 +15,7 @@ public class ArticleAddVM
     [Required]
     [Display(Name = "İçerik")]
     public string Content { get; set; } = string.Empty;
-    public string? Thumbnail => ThumbnailFile?.FileToString().GetAwaiter().GetResult();
+    public string? Thumbnail => ThumbnailFile?.FileToStringAsync().GetAwaiter().GetResult();
 
     [Display(Name = "Resim")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]

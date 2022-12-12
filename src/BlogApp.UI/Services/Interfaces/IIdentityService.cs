@@ -8,7 +8,7 @@ public interface IIdentityService
     bool IsLoggedIn { get; }
 
     string? GetUserToken();
-    Task<IResult> LoginAsync(LoginVM loginVM);
-    Task<IResult> RegisterAsync(RegisterVM registerVM);
+    Task<IResult> LoginAsync(LoginVM loginVM, CancellationToken cancellationToken = default);
+    Task<IResult> RegisterAsync(RegisterVM registerVM, CancellationToken cancellationToken = default);
     Task SignOutAsync();
 }

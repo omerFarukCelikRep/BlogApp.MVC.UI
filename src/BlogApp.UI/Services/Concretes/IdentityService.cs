@@ -30,15 +30,15 @@ public class IdentityService : IIdentityService
         return _httpContextAccessor.HttpContext?.Session.GetString("Token");
     }
 
-    public async Task<IResult> LoginAsync(LoginVM loginVM)
+    public async Task<IResult> LoginAsync(LoginVM loginVM, CancellationToken cancellationToken = default)
     {
-        var responseMessage = await _httpClient.PostAsJsonAsync("/api/v1/Accounts/Authenticate", loginVM);
+        var responseMessage = await _httpClient.PostAsJsonAsync("/api/v1/Accounts/Authenticate", loginVM, cancellationToken);
         if (responseMessage is null)
         {
             return new ErrorResult("Giriş Başarısız"); //TODO: Magic string
         }
 
-        var response = await responseMessage.Content.ReadFromJsonAsync<AuthResult>();
+        var response = await responseMessage.Content.ReadFromJsonAsync<AuthResult>(cancellationToken: cancellationToken);
         if (!responseMessage.IsSuccessStatusCode)
         {
             return new ErrorResult(response!.ToString());
@@ -49,10 +49,7 @@ public class IdentityService : IIdentityService
             return new ErrorResult("Giriş Başarısız!");
         }
 
-        var claims = jwtSecurityToken.Claims;
-
-        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
+        var claimsIdentity = new ClaimsIdentity(jwtSecurityToken.Claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var authProperties = new AuthenticationProperties
         {
             AllowRefresh = true,
@@ -68,15 +65,15 @@ public class IdentityService : IIdentityService
         return new SuccessResult("Giriş Başarılı"); //TODO: Magic string
     }
 
-    public async Task<IResult> RegisterAsync(RegisterVM registerVM)
+    public async Task<IResult> RegisterAsync(RegisterVM registerVM, CancellationToken cancellationToken = default)
     {
-        var responseMessage = await _httpClient.PostAsJsonAsync("/api/v1/Accounts/Register", registerVM);
+        var responseMessage = await _httpClient.PostAsJsonAsync("/api/v1/Accounts/Register", registerVM,cancellationToken);
         if (responseMessage is null || !(responseMessage.Content.Headers.ContentLength > 0))
         {
             return new ErrorResult($"Kayıt İşlemi Başarısız - {responseMessage?.ReasonPhrase}"); //TODO: Magic string
         }
 
-        var response = await responseMessage.Content.ReadFromJsonAsync<AuthResult>();
+        var response = await responseMessage.Content.ReadFromJsonAsync<AuthResult>(cancellationToken:cancellationToken);
         if (!responseMessage.IsSuccessStatusCode)
         {
             return new ErrorResult(response!.ToString());

@@ -115,7 +115,7 @@ public class ArticleController : BaseController
 
     private async Task<IEnumerable<SelectListItem>> GetTopics(Guid? selectedId = null)
     {
-        var result = await _topicService.GetAll();
+        var result = await _topicService.GetAllAsync();
         if (result is null)
         {
             return Enumerable.Empty<SelectListItem>();

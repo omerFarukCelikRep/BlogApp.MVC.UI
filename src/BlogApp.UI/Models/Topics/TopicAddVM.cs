@@ -7,14 +7,19 @@ namespace BlogApp.UI.Models.Topics;
 public class TopicAddVM
 {
     [Required]
-    [MinLength(0)]
-    [Display(Name = "İsim")]
+    [MinLength(3)]
+    [StringLength(256)]
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    [Display(Name = "Resim")]
+    [Display(Name = "Thumbnail")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public IFormFile ThumbnailFile { get; set; } = null!;
 
-    public string? Thumbnail => ThumbnailFile?.FileToString().GetAwaiter().GetResult();
+    [Required]
+    [MinLength(11)]
+    [StringLength(512)]
+    public string Description { get; set; } = string.Empty;
+
+    public string? Thumbnail => ThumbnailFile?.FileToStringAsync().GetAwaiter().GetResult();
 }

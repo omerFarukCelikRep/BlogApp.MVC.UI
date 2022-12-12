@@ -17,7 +17,7 @@ public class TopicController : BaseController
     [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
-        var result = await _topicService.GetAll();
+        var result = await _topicService.GetAllAsync();
         return View(result!.Data);
     }
 
@@ -48,12 +48,30 @@ public class TopicController : BaseController
     [HttpGet]
     public async Task<IActionResult> Update(Guid id)
     {
-        var result = await _topicService.GetById(id);
+        var result = await _topicService.GetByIdAsync(id);
         if (result is null || !result.IsSuccess)
         {
             return NotFound();
         }
 
         return View(result.Data);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(TopicUpdateVM topicUpdateVM)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(topicUpdateVM);
+        }
+
+        var result = await _topicService.UpdateAsync(topicUpdateVM);
+        if (!result.IsSuccess)
+        {
+            ModelState.AddModelError(string.Empty, result.Message!);
+            return View(topicUpdateVM);
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 }

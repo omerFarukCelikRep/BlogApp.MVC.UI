@@ -4,12 +4,10 @@
     <div class="col-xs-12 nopadding">
         <div class="box">
             <div class="content-body">
-                <!--Content Details Body Start-->
                 <div class="content-details-body">
                     <div class="page-title title-center">
-                        <h1>Konu Ekle</h1>
+                        <h1>Update Topic</h1>
                     </div>
-                    <!--Contact Form Start-->
                     <form class="contact-form" asp-action="Update" method="post" enctype="multipart/form-data">
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="row">
@@ -18,10 +16,16 @@
                                 <input asp-for="Name" required />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
+                            <div class="box">
+                                <label asp-for="Description"></label>
+                                <input asp-for="Description" required />
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
                             <div class="post-img img-div-cover">
                                 <figure>
                                     <div class="overlay-hover"></div>
                                     <img id="thumbPicture" src="data:image/*;base64,@Model.Thumbnail" alt="thumbnail">
+                                    <input asp-for="Thumbnail" />
                                 </figure>
                             </div>
                             <div class="box">
@@ -34,13 +38,11 @@
                         </div>
                         <div class="row">
                             <div class="box">
-                                <button type="submit" class="w-100 text-dark">Kaydet</button>
+                                <button type="submit" class="w-100 text-dark">Update</button>
                             </div>
                         </div>
                     </form>
-                    <!--Contact Form End-->
                 </div>
-                <!--Content Details Body End-->
             </div>
         </div>
     </div>

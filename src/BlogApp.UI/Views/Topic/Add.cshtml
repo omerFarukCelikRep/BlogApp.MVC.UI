@@ -4,12 +4,10 @@
     <div class="col-xs-12 nopadding">
         <div class="box">
             <div class="content-body">
-                <!--Content Details Body Start-->
                 <div class="content-details-body">
                     <div class="page-title title-center">
-                        <h1>Konu Ekle</h1>
+                        <h1>Add Topic</h1>
                     </div>
-                    <!--Contact Form Start-->
                     <form class="contact-form" asp-action="Add" method="post" enctype="multipart/form-data">
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="row">
@@ -17,6 +15,11 @@
                                 <label asp-for="Name"></label>
                                 <input asp-for="Name" required />
                                 <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="box">
+                                 <label asp-for="Description"></label>
+                                <input asp-for="Description" required />
+                                <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                             <div class="post-img img-div-cover">
                                 <figure>
@@ -29,8 +32,6 @@
                                 <input asp-for="ThumbnailFile" class="form-control p-2" placeholder="Yükle" accept=".png,.jpg,.jpeg,.gif,.tif" required />
                                 <span asp-validation-for="ThumbnailFile" class="text-danger"></span>
                             </div>
-                            <div class="box">
-                            </div>
                         </div>
                         <div class="row">
                             <div class="box">
@@ -38,9 +39,7 @@
                             </div>
                         </div>
                     </form>
-                    <!--Contact Form End-->
                 </div>
-                <!--Content Details Body End-->
             </div>
         </div>
     </div>

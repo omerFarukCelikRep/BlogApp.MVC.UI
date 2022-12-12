@@ -10,4 +10,5 @@ public interface ITopicService
     Task<IResult> AddAsync(TopicAddVM topicAddVM, CancellationToken cancellationToken = default);
     Task<IDataResult<TopicUpdateVM>?> GetByIdAsync(Guid id, CancellationToken cancellation = default);
     Task<IResult> UpdateAsync(TopicUpdateVM topicUpdateVM, CancellationToken cancellationToken = default);
+    Task<IResult?> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 }

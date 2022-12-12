@@ -64,4 +64,9 @@ public class TopicService : ITopicService
 
         return new SuccessResult();
     }
+
+    public async Task<IResult?> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.DeleteFromJsonAsync<Result>("/api/v1/Topics/" + id, cancellationToken);
+    }
 }

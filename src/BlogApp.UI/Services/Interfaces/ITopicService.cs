@@ -6,7 +6,8 @@ namespace BlogApp.UI.Services.Interfaces;
 
 public interface ITopicService
 {
-    Task<IDataResult<List<TopicListVM>>?> GetAll();
-    Task<IResult> AddAsync(TopicAddVM topicAddVM);
-    Task<IDataResult<TopicUpdateVM>?> GetById(Guid id);
+    Task<IDataResult<List<TopicListVM>>?> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<IResult> AddAsync(TopicAddVM topicAddVM, CancellationToken cancellationToken = default);
+    Task<IDataResult<TopicUpdateVM>?> GetByIdAsync(Guid id, CancellationToken cancellation = default);
+    Task<IResult> UpdateAsync(TopicUpdateVM topicUpdateVM, CancellationToken cancellationToken = default);
 }

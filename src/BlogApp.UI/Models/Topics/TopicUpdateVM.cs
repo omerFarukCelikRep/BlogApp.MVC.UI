@@ -10,8 +10,8 @@ public class TopicUpdateVM
 
     [Required]
     [MinLength(3)]
-    [StringLength(256)] 
-    public string Name { get; set; } =null!;
+    [StringLength(256)]
+    public string Name { get; set; } = null!;
 
     [MinLength(11)]
     [StringLength(512)]

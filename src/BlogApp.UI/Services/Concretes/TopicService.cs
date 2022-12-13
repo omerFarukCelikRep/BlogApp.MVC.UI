@@ -23,13 +23,13 @@ public class TopicService : ITopicService
 
     public async Task<IResult> AddAsync(TopicAddVM topicAddVM, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsJsonAsync("/api/v1/Topics", topicAddVM,cancellationToken);
+        var response = await _httpClient.PostAsJsonAsync("/api/v1/Topics", topicAddVM, cancellationToken);
         if (response is null)
         {
             return new ErrorResult("Giriş Başarısız"); //TODO: Magic string
         }
 
-        var result = await response.Content.ReadFromJsonAsync<DataResult<TopicAddVM>>(cancellationToken:cancellationToken);
+        var result = await response.Content.ReadFromJsonAsync<DataResult<TopicAddVM>>(cancellationToken: cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             return new ErrorResult($"{result!.Message}");

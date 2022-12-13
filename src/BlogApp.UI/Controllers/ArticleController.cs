@@ -64,11 +64,11 @@ public class ArticleController : BaseController
         var result = await _articleService.AddAsync(articleAddVM);
         if (!result.IsSuccess)
         {
-            ModelState.AddModelError(string.Empty, result.Message!);
+            ModelState.AddModelError(string.Empty, result.Message!); //TODO:Show message
             return View(articleAddVM);
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Unpublished));
     }
 
     [HttpGet]

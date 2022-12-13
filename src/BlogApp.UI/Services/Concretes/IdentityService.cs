@@ -67,13 +67,13 @@ public class IdentityService : IIdentityService
 
     public async Task<IResult> RegisterAsync(RegisterVM registerVM, CancellationToken cancellationToken = default)
     {
-        var responseMessage = await _httpClient.PostAsJsonAsync("/api/v1/Accounts/Register", registerVM,cancellationToken);
+        var responseMessage = await _httpClient.PostAsJsonAsync("/api/v1/Accounts/Register", registerVM, cancellationToken);
         if (responseMessage is null || !(responseMessage.Content.Headers.ContentLength > 0))
         {
             return new ErrorResult($"Kayıt İşlemi Başarısız - {responseMessage?.ReasonPhrase}"); //TODO: Magic string
         }
 
-        var response = await responseMessage.Content.ReadFromJsonAsync<AuthResult>(cancellationToken:cancellationToken);
+        var response = await responseMessage.Content.ReadFromJsonAsync<AuthResult>(cancellationToken: cancellationToken);
         if (!responseMessage.IsSuccessStatusCode)
         {
             return new ErrorResult(response!.ToString());

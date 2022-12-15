@@ -1,7 +1,5 @@
-﻿using BlogApp.UI.Models.Articles;
-using BlogApp.UI.Services.Interfaces;
+﻿using BlogApp.UI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BlogApp.UI.Controllers;
 public class ArticleController : BaseController
@@ -37,95 +35,9 @@ public class ArticleController : BaseController
         if (!result!.IsSuccess)
         {
             ModelState.AddModelError(string.Empty, result.Message!);
-            return RedirectToAction(nameof(Unpublished));
-        }
-
-        return View(result.Data);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Add()
-    {
-        return View(new ArticleAddVM
-        {
-            Topics = await GetTopics()
-        });
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Add(ArticleAddVM articleAddVM)
-    {
-        if (!ModelState.IsValid)
-        {
-            articleAddVM.Topics = await GetTopics();
-            return View(articleAddVM);
-        }
-
-        var result = await _articleService.AddAsync(articleAddVM);
-        if (!result.IsSuccess)
-        {
-            ModelState.AddModelError(string.Empty, result.Message!); //TODO:Show message
-            return View(articleAddVM);
-        }
-
-        return RedirectToAction(nameof(Unpublished));
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Unpublished()
-    {
-        var result = await _articleService.GetAllUnpublished();
-        if (!result!.IsSuccess)
-        {
-            ModelState.AddModelError(string.Empty, result.Message!);
             return RedirectToAction(nameof(Index));
         }
 
         return View(result.Data);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> UnpublishedDetails(Guid id)
-    {
-        var result = await _articleService.GetUnpublishedById(id);
-        if (!result!.IsSuccess)
-        {
-            ModelState.AddModelError(string.Empty, result.Message!);
-            return RedirectToAction(nameof(Unpublished));
-        }
-
-        return View(result.Data);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Publish(Guid id)
-    {
-        var result = await _articleService.Publish(id);
-
-        return RedirectToAction(result.IsSuccess ? nameof(Index) : nameof(Unpublished));
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> PublishedDetails(Guid id)
-    {
-        var result = await _articleService.GetPublishedById(id);
-
-        return View(result?.Data);
-    }
-
-    private async Task<IEnumerable<SelectListItem>> GetTopics(Guid? selectedId = null)
-    {
-        var result = await _topicService.GetAllAsync();
-        if (result is null)
-        {
-            return Enumerable.Empty<SelectListItem>();
-        }
-
-        return result.Data!.ConvertAll(topic => new SelectListItem
-        {
-            Selected = selectedId is not null && selectedId == topic.Id,
-            Text = topic.Name,
-            Value = topic.Id.ToString()
-        });
     }
 }

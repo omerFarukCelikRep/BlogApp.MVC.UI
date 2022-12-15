@@ -1,23 +1,13 @@
 ﻿<header>
     <div class="container">
-
-        <!--Logo Start-->
         <div class="logo">
             <a href="/">
                 <img src="~/images/logo-transparent.png" alt="logo" />
             </a>
         </div>
-        <!--Logo End-->
-        <!--Navigation Menu Start-->
         <div class="nav-menu">
-
-            <!--Open Close Menu-->
             <div class="burger-menu"><i class="fa fa-bars"></i></div>
-
-            <!--Search Icon-->
             <div id="trigger-overlay" class="search-open"><i class="fa-solid fa-magnifying-glass"></i></div>
-
-            <!--Menu Start-->
             <ul>
                 <li class="current-menu">
                     <a asp-controller="Home" asp-action="Index">Home</a>
@@ -48,9 +38,9 @@
                 <li>
                     <a href="#">Article</a>
                     <ul>
-                        <li><a asp-action="Add" asp-controller="Article">Add Article</a></li>
+                        <li><a asp-action="Add" asp-controller="UnpublishedArticle">Add Article</a></li>
                         <li><a asp-action="Index" asp-controller="Article">List Articles</a></li>
-                        <li><a asp-action="Unpublished" asp-controller="Article">Unpublished Articles</a></li>
+                        <li><a asp-action="Index" asp-controller="UnpublishedArticle">Unpublished Articles</a></li>
                     </ul>
                 </li>
                 <li><a href="about-me.html">About me</a></li>
@@ -77,8 +67,6 @@
                     </ul>
                 </li>
             </ul>
-            <!--Menu End-->
         </div>
-        <!--Navigation Menu End-->
     </div>
 </header>

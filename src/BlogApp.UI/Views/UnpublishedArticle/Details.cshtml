@@ -1,0 +1,35 @@
+﻿@model ArticleUnpublishedDetailsVM
+
+<div class="row section-wrapper">
+    <div class="col-xs-12 nopadding">
+        <div class="box">
+            <div class="post-single-content-body">
+                <div class="featured-image img-div-cover">
+                    <img src="data:image/*;base64,@Model.Thumbnail" alt="@Model.Title" />
+                </div>
+                <div class="post-single-details-body">
+                    <div class="page-title title-center">
+                        <h1>
+                            @Model.Title
+                        </h1>
+                    </div>
+                    <div class="post-meta text-center">
+                        <ul>
+                            <li><a href="#">@Model.CreatedDate</a></li>
+                        </ul>
+                    </div>
+                    @Html.Raw(Model.Content)
+                    <div data-height="17"></div>
+                    <div class="post-single-tags">
+                        <h5>Topics</h5>
+                        @foreach (var topic in Model.Topics)
+                        {
+                            <a href="#">@topic</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layout-divider"></div>

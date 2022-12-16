@@ -68,8 +68,13 @@ public class UnpublishedArticleController : BaseController
         return View(result.Data);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Update(Guid id)
+    {
+        return View();
+    }
 
-  [HttpGet]
+    [HttpGet]
     public async Task<IActionResult> Publish(Guid id)
     {
         var result = await _articleService.Publish(id);

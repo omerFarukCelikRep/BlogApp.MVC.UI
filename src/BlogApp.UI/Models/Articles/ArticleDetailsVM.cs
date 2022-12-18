@@ -1,6 +1,8 @@
-﻿namespace BlogApp.UI.Models.Articles;
+﻿using BlogApp.UI.Models.Topics;
 
-public class ArticlePublishedDetailsVM
+namespace BlogApp.UI.Models.Articles;
+
+public class ArticleDetailsVM
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = null!;
@@ -13,5 +15,5 @@ public class ArticlePublishedDetailsVM
     public int ReadTime { get; set; }
     public int ReadingCount { get; set; }
     public int LikeCount { get; set; }
-    public List<string> Topics { get; set; } = null!;
+    public List<TopicArticleDetailsVM> Topics { get; set; } = null!;
 }

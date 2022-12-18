@@ -7,11 +7,9 @@ namespace BlogApp.UI.Services.Interfaces;
 public interface IArticleService
 {
     Task<Core.Utilities.Results.Interfaces.IResult> AddAsync(ArticleAddVM articleAddVM);
-    Task<IDataResult<List<ArticlePublishedListVM>>?> GetAllPublished();
-    Task<IDataResult<List<ArticlePublishedListVM>>?> GetAllPublishedByTopicName(string topicName);
-    Task<IDataResult<List<UserMainSliderVM>>?> GetAllPublishedShortDetailsRandomly();
-    Task<IDataResult<List<ArticleUnpublishedListVM>>?> GetAllUnpublished();
-    Task<IDataResult<ArticlePublishedDetailsVM>?> GetPublishedById(Guid articleId);
-    Task<IDataResult<ArticleUnpublishedDetailsVM>?> GetUnpublishedById(Guid articleId);
-    Task<Core.Utilities.Results.Interfaces.IResult> Publish(Guid articleId);
+    Task<IDataResult<List<ArticlePublishedListVM>>?> GetAllAsync();
+    Task<IDataResult<List<ArticlePublishedListVM>>?> GetAllByTopicNameAsync(string topicName);
+    Task<IDataResult<List<UserMainSliderVM>>?> GetAllShortDetailsRandomlyAsync();
+    Task<IDataResult<ArticleDetailsVM>?> GetByIdAsync(Guid articleId);
+    Task<Core.Utilities.Results.Interfaces.IResult> UpdateAsync(ArticleUpdateVM articleUpdateVM);
 }

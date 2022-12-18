@@ -24,7 +24,7 @@ public class ArticleUpdateVM
     [Required]
     [Display(Name = "Topics")]
     public List<Guid> TopicIds { get; set; } = null!;
-    public IEnumerable<SelectListItem> Topics { get; set; } = null!;
+    public IEnumerable<SelectListItem>? Topics { get; set; }
 
     public static explicit operator ArticleUpdateVM(ArticleUnpublishedDetailsVM articleUnpublishedDetailsVM)
     {

@@ -24,7 +24,7 @@ public class UnpublishedArticleService : IUnpublishedArticleService
         return await _httpClient.GetFromJsonAsync<DataResult<ArticleUnpublishedDetailsVM>>($"/api/v1/Articles/Unpublished/{articleId}");
     }
 
-    public async Task<IResult> Publish(Guid articleId)
+    public async Task<IResult> PublishAsync(Guid articleId)
     {
         var responseMessage = await _httpClient.PostAsJsonAsync("/api/v1/Articles/Publish", articleId);
         var response = await responseMessage.Content.ReadFromJsonAsync<Result>();

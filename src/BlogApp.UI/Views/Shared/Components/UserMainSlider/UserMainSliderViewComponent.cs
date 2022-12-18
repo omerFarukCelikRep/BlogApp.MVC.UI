@@ -13,7 +13,7 @@ public class UserMainSliderViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var result = await _articleService.GetAllPublishedShortDetailsRandomly();
+        var result = await _articleService.GetAllShortDetailsRandomlyAsync();
         return View(result?.Data);
     }
 }

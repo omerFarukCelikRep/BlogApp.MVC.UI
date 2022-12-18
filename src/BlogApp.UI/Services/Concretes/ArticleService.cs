@@ -1,6 +1,7 @@
 ﻿using BlogApp.Core.Utilities.Results.Concrete;
 using BlogApp.Core.Utilities.Results.Interfaces;
 using BlogApp.UI.Models.Articles;
+using BlogApp.UI.Models.UnpublishedArticles;
 using BlogApp.UI.Models.Users;
 using BlogApp.UI.Services.Interfaces;
 using System.Net;
@@ -33,45 +34,40 @@ public class ArticleService : IArticleService
         return new SuccessResult();
     }
 
-    public async Task<IDataResult<List<ArticlePublishedListVM>>?> GetAllPublished()
+    public async Task<IDataResult<List<ArticlePublishedListVM>>?> GetAllAsync()
     {
         return await _httpClient.GetFromJsonAsync<DataResult<List<ArticlePublishedListVM>>>("/api/v1/Articles/Published");
     }
 
-    public async Task<IDataResult<List<ArticlePublishedListVM>>?> GetAllPublishedByTopicName(string topicName)
+    public async Task<IDataResult<List<ArticlePublishedListVM>>?> GetAllByTopicNameAsync(string topicName)
     {
         return await _httpClient.GetFromJsonAsync<DataResult<List<ArticlePublishedListVM>>>($"/api/v1/Articles/{topicName}");
     }
 
-    public async Task<IDataResult<ArticlePublishedDetailsVM>?> GetPublishedById(Guid articleId)
+    public async Task<IDataResult<ArticleDetailsVM>?> GetByIdAsync(Guid articleId)
     {
-        return await _httpClient.GetFromJsonAsync<DataResult<ArticlePublishedDetailsVM>>($"/api/v1/Articles/{articleId}");
+        return await _httpClient.GetFromJsonAsync<DataResult<ArticleDetailsVM>>($"/api/v1/Articles/{articleId}");
     }
 
-    public async Task<IDataResult<List<ArticleUnpublishedListVM>>?> GetAllUnpublished()
+    public async Task<IDataResult<List<UserMainSliderVM>>?> GetAllShortDetailsRandomlyAsync()
     {
-        return await _httpClient.GetFromJsonAsync<DataResult<List<ArticleUnpublishedListVM>>>("/api/v1/Articles/Unpublished");
+        return await _httpClient.GetFromJsonAsync<DataResult<List<UserMainSliderVM>>>($"/api/v1/Articles/ShortDetails");
     }
 
-    public async Task<IDataResult<ArticleUnpublishedDetailsVM>?> GetUnpublishedById(Guid articleId)
+    public async Task<IResult> UpdateAsync(ArticleUpdateVM articleUpdateVM)
     {
-        return await _httpClient.GetFromJsonAsync<DataResult<ArticleUnpublishedDetailsVM>>($"/api/v1/Articles/Unpublished/{articleId}");
-    }
-
-    public async Task<IResult> Publish(Guid articleId)
-    {
-        var responseMessage = await _httpClient.PostAsJsonAsync("/api/v1/Articles/Publish", articleId);
-        var response = await responseMessage.Content.ReadFromJsonAsync<Result>();
-        if (response is not null && !responseMessage.IsSuccessStatusCode)
+        var responseMessage = await _httpClient.PutAsJsonAsync("/api/v1/Articles", articleUpdateVM);
+        if (responseMessage is null)
         {
-            return new ErrorResult($"{responseMessage.ReasonPhrase} - {response.Message}");
+            return new ErrorResult("İşlem Başarısız"); //TODO: Magic string
+        }
+
+        var response = await responseMessage.Content.ReadFromJsonAsync<DataResult<ArticleUpdateVM>>();
+        if (responseMessage.StatusCode == HttpStatusCode.BadRequest || !responseMessage.IsSuccessStatusCode)
+        {
+            return new ErrorResult($"{responseMessage.ReasonPhrase} - {response!.Message}");
         }
 
         return new SuccessResult();
-    }
-
-    public async Task<IDataResult<List<UserMainSliderVM>>?> GetAllPublishedShortDetailsRandomly()
-    {
-        return await _httpClient.GetFromJsonAsync<DataResult<List<UserMainSliderVM>>>($"/api/v1/Articles/ShortDetails");
     }
 }

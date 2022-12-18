@@ -1,4 +1,5 @@
-﻿using BlogApp.UI.Models.Articles;
+﻿using BlogApp.UI.Extensions;
+using BlogApp.UI.Models.Articles;
 using BlogApp.UI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,18 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace BlogApp.UI.Controllers;
 public class UnpublishedArticleController : BaseController
 {
+    private readonly IUnpublishedArticleService _unpublishedArticleService;
     private readonly IArticleService _articleService;
     private readonly ITopicService _topicService;
-    public UnpublishedArticleController(IArticleService articleService, ITopicService topicService)
+    public UnpublishedArticleController(IUnpublishedArticleService unpublishedArticleService, ITopicService topicService, IArticleService articleService)
     {
-        _articleService = articleService;
+        _unpublishedArticleService = unpublishedArticleService;
         _topicService = topicService;
+        _articleService = articleService;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var result = await _articleService.GetAllUnpublished();
+        var result = await _unpublishedArticleService.GetAllAsync();
         if (!result!.IsSuccess)
         {
             ModelState.AddModelError(string.Empty, result.Message!);
@@ -25,40 +28,12 @@ public class UnpublishedArticleController : BaseController
         }
 
         return View(result.Data);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Add()
-    {
-        return View(new ArticleAddVM
-        {
-            Topics = await GetTopics()
-        });
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Add(ArticleAddVM articleAddVM)
-    {
-        if (!ModelState.IsValid)
-        {
-            articleAddVM.Topics = await GetTopics();
-            return View(articleAddVM);
-        }
-
-        var result = await _articleService.AddAsync(articleAddVM);
-        if (!result.IsSuccess)
-        {
-            ModelState.AddModelError(string.Empty, result.Message!); //TODO:Show message
-            return View(articleAddVM);
-        }
-
-        return RedirectToAction(nameof(Index));
-    }
+    }    
 
     [HttpGet]
     public async Task<IActionResult> Details(Guid id)
     {
-        var result = await _articleService.GetUnpublishedById(id);
+        var result = await _unpublishedArticleService.GetByIdAsync(id);
         if (!result!.IsSuccess)
         {
             ModelState.AddModelError(string.Empty, result.Message!); //TODO:Show message
@@ -69,15 +44,9 @@ public class UnpublishedArticleController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Update(Guid id)
-    {
-        return View();
-    }
-
-    [HttpGet]
     public async Task<IActionResult> Publish(Guid id)
     {
-        var result = await _articleService.Publish(id);
+        var result = await _unpublishedArticleService.Publish(id);
         if (!result.IsSuccess)
         {
             ModelState.AddModelError(string.Empty, result.Message!); //TODO:Show message
@@ -87,7 +56,7 @@ public class UnpublishedArticleController : BaseController
         return RedirectToAction("Index", "Article");
     }
 
-    private async Task<IEnumerable<SelectListItem>> GetTopics(Guid? selectedId = null)
+    private async Task<IEnumerable<SelectListItem>> GetTopics(List<Guid>? selectedIds = null)
     {
         var result = await _topicService.GetAllAsync();
         if (result is null)
@@ -97,7 +66,7 @@ public class UnpublishedArticleController : BaseController
 
         return result.Data!.ConvertAll(topic => new SelectListItem
         {
-            Selected = selectedId is not null && selectedId == topic.Id,
+            Selected = selectedIds is not null && selectedIds.Any(x => x == topic.Id),
             Text = topic.Name,
             Value = topic.Id.ToString()
         });

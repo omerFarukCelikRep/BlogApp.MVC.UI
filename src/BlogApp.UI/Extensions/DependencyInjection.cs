@@ -44,6 +44,7 @@ public static class DependencyInjection
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddScoped<ITopicService, TopicService>();
         services.AddScoped<IArticleService, ArticleService>();
+        services.AddScoped<IUnpublishedArticleService, UnpublishedArticleService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ICommentService, CommentService>();
 
